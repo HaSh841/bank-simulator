@@ -2,25 +2,43 @@ namespace ATMApp.Services
 {
     public static class BankingServices
     {
-        // Option 1: Pass-by-value
         public static double GetBalance(double balance)
         {
             return balance;
         }
 
-        // Option 2: ref (Deposit)
         public static bool Deposit(ref double balance, double amount)
         {
-            return false; //placeholder return value, replace with actual implementation
+            // Validate deposit amount
+            if (amount > 0)
+            {
+                balance += amount;  // Modify balance with the deposit
+                return true;         // Return true for successful deposit
+            }
+            else
+            {
+                return false;        // Return false if the deposit amount is invalid
+            }
         }
 
-        // Option 3: ref + out (Withdraw)
-        public static void Withdraw(
-            ref double balance,
-            double amount,
-            out bool isSuccessful)
+        public static void Withdraw(ref double balance, double amount, out bool isSuccessful)
         {
-            isSuccessful = false; //placeholder value, replace with actual implementation
+            isSuccessful = false;
+
+            if (amount <= 0)
+            {
+                return; // Invalid withdrawal amount, return early
+            }
+
+            if (amount <= balance)
+            {
+                balance -= amount;    // Deduct the amount from balance
+                isSuccessful = true;  // Set success flag to true
+            }
+            else
+            {
+                isSuccessful = false; // Insufficient balance, set to false
+            }
         }
     }
 }
